@@ -3,22 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixelcraft App Development Corp.</title>
+    <title>Pixelcraft App Development Corp. — Mobile App Studio</title>
+    <meta name="description" content="Pixelcraft App Development Corp. is a Canadian mobile app development studio designing and building intelligent iOS experiences. Our flagship app, Styled, is a wardrobe management and personal styling app coming soon to the App Store.">
+    <meta name="author" content="Pixelcraft App Development Corp.">
+    <meta property="og:title" content="Pixelcraft App Development Corp.">
+    <meta property="og:description" content="A Canadian mobile app development studio crafting intelligent iOS experiences. Our flagship app, Styled, is coming soon to the App Store.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pixelcraftapps.ca/">
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f5f5f7; color: #1d1d1f; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { text-align: center; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-        p { color: #86868b; font-size: 1.2rem; }
-        .footer { margin-top: 2rem; font-size: 0.9rem; color: #a1a1a6; }
+        :root {
+            --bg: #f5f5f7;
+            --surface: #ffffff;
+            --ink: #1d1d1f;
+            --muted: #6e6e73;
+            --faint: #86868b;
+            --line: #e3e3e6;
+            --accent: #0071e3;
+            --accent-ink: #ffffff;
+            --radius: 16px;
+            --maxw: 1040px;
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--ink);
+            margin: 0;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+        /* Nav */
+        header.nav {
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--line);
+        }
+        .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1.05rem; color: var(--ink); }
+        .brand:hover { text-decoration: none; }
+        .logo {
+            width: 26px; height: 26px; border-radius: 7px;
+            background: linear-gradient(135deg, #0071e3, #42a5f5);
+            display: inline-block;
+        }
+        .nav-links { display: flex; gap: 26px; }
+        .nav-links a { color: var(--muted); font-size: 0.92rem; }
+        .nav-links a:hover { color: var(--ink); text-decoration: none; }
+        @media (max-width: 640px) { .nav-links { display: none; } }
+
+        /* Hero */
+        .hero { text-align: center; padding: 96px 0 72px; }
+        .hero h1 { font-size: 3rem; line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px; }
+        .hero .lead { font-size: 1.35rem; color: var(--muted); max-width: 720px; margin: 0 auto 14px; }
+        .hero .sub { font-size: 1.05rem; color: var(--faint); max-width: 640px; margin: 0 auto 32px; }
+        .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            display: inline-block; padding: 12px 22px; border-radius: 980px;
+            font-size: 0.98rem; font-weight: 500;
+        }
+        .btn-primary { background: var(--accent); color: var(--accent-ink); }
+        .btn-primary:hover { background: #0064c8; text-decoration: none; }
+        .btn-ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+        .btn-ghost:hover { text-decoration: none; background: rgba(0,113,227,0.06); }
+        @media (max-width: 640px) { .hero { padding: 60px 0 48px; } .hero h1 { font-size: 2.2rem; } .hero .lead { font-size: 1.15rem; } }
+
+        /* Sections */
+        section { padding: 64px 0; border-top: 1px solid var(--line); }
+        section h2 { font-size: 2rem; letter-spacing: -0.01em; margin: 0 0 8px; }
+        section .kicker { text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.78rem; font-weight: 600; color: var(--accent); margin: 0 0 10px; }
+        section p.body { font-size: 1.08rem; color: var(--muted); max-width: 760px; }
+        .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 32px; }
+        @media (max-width: 760px) { .cols { grid-template-columns: 1fr; } }
+        .card {
+            background: var(--surface); border: 1px solid var(--line);
+            border-radius: var(--radius); padding: 26px;
+        }
+        .card h3 { margin: 0 0 8px; font-size: 1.15rem; }
+        .card p { margin: 0; color: var(--muted); font-size: 0.98rem; }
+
+        /* Product */
+        .product { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; }
+        @media (max-width: 760px) { .product { grid-template-columns: 1fr; } }
+        .badge {
+            display: inline-block; background: #e8f0fe; color: #0064c8;
+            font-size: 0.78rem; font-weight: 600; padding: 5px 12px; border-radius: 980px; margin-bottom: 16px;
+        }
+        .feature-list { list-style: none; padding: 0; margin: 20px 0 0; }
+        .feature-list li { padding: 8px 0 8px 28px; position: relative; color: var(--muted); }
+        .feature-list li::before {
+            content: ""; position: absolute; left: 0; top: 15px;
+            width: 14px; height: 8px; border-left: 2px solid var(--accent); border-bottom: 2px solid var(--accent);
+            transform: rotate(-45deg);
+        }
+        .device {
+            background: var(--surface); border: 1px solid var(--line); border-radius: 28px;
+            padding: 40px 28px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        }
+        .device .glyph {
+            width: 84px; height: 84px; margin: 0 auto 18px; border-radius: 20px;
+            background: linear-gradient(135deg, #0071e3, #64b5f6);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 40px;
+        }
+        .device .name { font-weight: 600; font-size: 1.3rem; }
+        .device .tag { color: var(--faint); font-size: 0.95rem; }
+
+        /* Company / contact info blocks */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 28px; }
+        @media (max-width: 760px) { .info-grid { grid-template-columns: 1fr; } }
+        .info-grid dt { font-weight: 600; margin-top: 14px; }
+        .info-grid dt:first-child { margin-top: 0; }
+        .info-grid dd { margin: 2px 0 0; color: var(--muted); }
+        .placeholder { color: #b26a00; background: #fff6e5; padding: 1px 6px; border-radius: 4px; font-size: 0.9em; }
+
+        /* Footer */
+        footer { border-top: 1px solid var(--line); padding: 40px 0; color: var(--faint); font-size: 0.9rem; }
+        .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+        .footer-links { display: flex; gap: 20px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Pixelcraft App Development Corp.</h1>
-        <p>Crafting intelligent mobile experiences. Our flagship wardrobe management and styling application, <strong>Styled</strong>, is coming soon to the iOS App Store.</p>
-        <div class="footer">
-            Contact: support@pixelcraftapps.ca | © 2026 Pixelcraft App Development Corp. All rights reserved.
+    <header class="nav">
+        <div class="wrap nav-inner">
+            <a class="brand" href="#top"><span class="logo" aria-hidden="true"></span> Pixelcraft</a>
+            <nav class="nav-links">
+                <a href="#about">About</a>
+                <a href="#styled">Styled</a>
+                <a href="#company">Company</a>
+                <a href="#contact">Contact</a>
+            </nav>
         </div>
+    </header>
+
+    <a id="top"></a>
+    <div class="wrap">
+        <section class="hero" style="border-top: none;">
+            <h1>Crafting intelligent<br>mobile experiences.</h1>
+            <p class="lead">Pixelcraft App Development Corp. is a Canadian mobile app development studio designing and building thoughtful, well-engineered iOS applications.</p>
+            <p class="sub">Our flagship app, <strong>Styled</strong>, brings intelligent wardrobe management and personal styling to iPhone — coming soon to the App Store.</p>
+            <div class="cta-row">
+                <a class="btn btn-primary" href="#styled">Meet Styled</a>
+                <a class="btn btn-ghost" href="#contact">Get in touch</a>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about">
+            <p class="kicker">About</p>
+            <h2>A studio built around craft.</h2>
+            <p class="body">Pixelcraft is an independent app development studio focused on the Apple ecosystem. We design and build native iOS applications end to end — from product direction and interface design through engineering, testing, and release. Our approach pairs careful, human-centered design with modern, maintainable engineering.</p>
+            <p class="body" style="margin-top:16px;">We believe good software is quiet and dependable: it respects your time, protects your data, and does exactly what it promises. Every product we ship is held to that standard.</p>
+
+            <div class="cols">
+                <div class="card">
+                    <h3>Design-led</h3>
+                    <p>Interfaces that feel native to iOS — clear, considered, and comfortable to use every day.</p>
+                </div>
+                <div class="card">
+                    <h3>Engineered to last</h3>
+                    <p>Native Swift apps built for performance, reliability, and long-term maintainability.</p>
+                </div>
+                <div class="card">
+                    <h3>Privacy-minded</h3>
+                    <p>We collect only what an app needs to work, and we're transparent about how it's used.</p>
+                </div>
+                <div class="card">
+                    <h3>Independent</h3>
+                    <p>A focused team shipping our own products, with full ownership of the details.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- STYLED -->
+        <section id="styled">
+            <div class="product">
+                <div>
+                    <span class="badge">Coming soon to the App Store</span>
+                    <p class="kicker">Our flagship app</p>
+                    <h2>Styled</h2>
+                    <p class="body">Styled is a wardrobe management and personal styling app for iPhone. It helps you catalogue the clothes you already own, put together outfits with confidence, and get more out of your wardrobe.</p>
+                    <ul class="feature-list">
+                        <li>Catalogue the clothes you already own</li>
+                        <li>Plan, build, and save outfits</li>
+                        <li>Make the most of your wardrobe</li>
+                        <li>Designed for iPhone, built with privacy in mind</li>
+                    </ul>
+                    <p class="body" style="margin-top:20px; font-size:0.98rem;">Styled is currently in active development. We'll share availability details here as we get closer to launch.</p>
+                </div>
+                <div class="device">
+                    <div class="glyph" aria-hidden="true">👗</div>
+                    <div class="name">Styled</div>
+                    <div class="tag">Wardrobe &amp; styling for iPhone</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPANY -->
+        <section id="company">
+            <p class="kicker">Company</p>
+            <h2>About the organization.</h2>
+            <p class="body">Pixelcraft App Development Corp. is a federally incorporated Canadian corporation operating as an independent mobile app development studio.</p>
+            <dl class="info-grid">
+                <div>
+                    <dt>Legal name</dt>
+                    <dd>Pixelcraft App Development Corp.</dd>
+                    <dt>Business type</dt>
+                    <dd>Mobile app development studio</dd>
+                    <dt>Location</dt>
+                    <dd>Cambridge, Ontario, Canada</dd>
+                </div>
+                <div>
+                    <dt>Incorporation</dt>
+                    <dd>Incorporated under the Canada Business Corporations Act, 2026<br>Corporation No.&nbsp;1803070-7</dd>
+                    <dt>Website</dt>
+                    <dd><a href="https://pixelcraftapps.ca">pixelcraftapps.ca</a></dd>
+                    <dt>Privacy</dt>
+                    <dd><a href="privacy.html">Privacy Policy</a></dd>
+                </div>
+            </dl>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact">
+            <p class="kicker">Contact</p>
+            <h2>Get in touch.</h2>
+            <p class="body">For product questions, support, or business enquiries, reach us at the details below.</p>
+            <dl class="info-grid">
+                <div>
+                    <dt>Email</dt>
+                    <dd><a href="mailto:hello@pixelcraftapps.ca">hello@pixelcraftapps.ca</a></dd>
+                    <dt>Phone</dt>
+                    <dd><a href="tel:+12269732235">+1 (226) 973-2235</a></dd>
+                </div>
+                <div>
+                    <dt>Mailing address</dt>
+                    <dd>
+                        Pixelcraft App Development Corp.<br>
+                        1025 King Street East, Unit 107-1680<br>
+                        Cambridge, ON&nbsp; N3H 3P5<br>
+                        Canada
+                    </dd>
+                </div>
+            </dl>
+        </section>
     </div>
+
+    <footer>
+        <div class="wrap footer-inner">
+            <div>© 2026 Pixelcraft App Development Corp. All rights reserved.</div>
+            <div class="footer-links">
+                <a href="mailto:hello@pixelcraftapps.ca">hello@pixelcraftapps.ca</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
